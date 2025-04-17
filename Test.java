@@ -8,8 +8,7 @@ public class Test {
     }
     
     public boolean uniqueWords(){
-        ArrayList<Integer> nums = new ArrayList<Integer>();
-        ArrayList<String> strs = new ArrayList<String>();
+        ArrayList<>[] arrs = new ArrayList<>[4];
         
         return false;
     }
