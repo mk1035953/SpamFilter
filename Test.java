@@ -18,7 +18,12 @@ public class Test {
         }
     }
     
-    public boolean uniqueWords(){
+    public double uniqueWords(){
+        double ret = 0;
+
+        HashMap<String,Integer> spamMap = new HashMap<String,Integer>();
+        HashMap<String,Integer> notSpamMap = new HashMap<String,Integer>();
+        
         ArrayList<String> spamWords = new ArrayList<>();
         ArrayList<Integer> spamWordFreq = new ArrayList<>();
         ArrayList<String> hamWords = new ArrayList<>();
@@ -28,43 +33,44 @@ public class Test {
             String[] words = spam.get(i).getWords();
             HashMap<String,Integer> freq = spam.get(i).getFreq();
             for(int j = 0; j<words.length;j++){
-                if(!spamWords.contains(words[j])){
+                if(spamMap.get(words[j])==null){
                     spamWords.add(words[j]);
-                    spamWordFreq.add(freq.get(words[j]));
+                    spamMap.put(words[j],freq.get(words[j]));
+                }
+                else{
+                   spamMap.put(words[j],spamMap.get(words[j])+freq.get(words[j]));
                 }
             }
         }
+        for(String s: spamWords){
+            spamWordFreq.add(spamMap.get(s));
+        }
+
         for(int i = 0; i<notSpam.size();i++){
             String[] words = notSpam.get(i).getWords();
             HashMap<String,Integer> freq = notSpam.get(i).getFreq();
             for(int j = 0; j<words.length;j++){
-                if(!hamWords.contains(words[j])){
+                if(notSpamMap.get(words[j])==null){
                     hamWords.add(words[j]);
-                    hamWordFreq.add(freq.get(words[j]));
+                    notSpamMap.put(words[j],freq.get(words[j]));
+                }
+                else{
+                   notSpamMap.put(words[j],notSpamMap.get(words[j])+freq.get(words[j]));
                 }
             }
+        }
+        for(String s: spamWords){
+            hamWordFreq.add(notSpamMap.get(s));
         }
 
-        int swaps = 0;
-        while(swaps !=0){
-            swaps = 0;
-            for(int i = 0; i<spamWords.size();i++){
-                for(int j = 0; j<hamWords.size();j++){
-                    if(spamWordFreq.get(j) < spamWordFreq.get(j)){
-                        String temp = spamWords.get(i);
-                        int tempFreq = spamWordFreq.get(i);
-                        spamWords.set(i,hamWords.get(j));
-                        spamWordFreq.set(i,hamWordFreq.get(j));
-                        hamWords.set(j,temp);
-                        hamWordFreq.set(j,tempFreq);
-                        swaps++;
-                    }
-                }
-            }
-        }
-        return false;
+        Bubble(spamWords,spamWordFreq);
+        Bubble(hamWords,hamWordFreq);
+
+        
+        
+        return ret;
     }
-    
+
     public boolean wordCount(Email mail){
         double[] spamCounts = new double[spam.size()];
         double[] notCounts = new double[notSpam.size()];
@@ -94,7 +100,26 @@ public class Test {
 
         return false;
     }
+    public void Bubble(ArrayList<String> arr1, ArrayList<Integer> arr2){
+        int swaps = 0;
+        while(swaps !=0){
+            swaps = 0;
+            for(int i = 0; i<arr1.size()-1;i++){
+                if(arr2.get(i) < arr2.get(i+1)){
+                    String temp = arr1.get(i);
+                    int tempFreq = arr2.get(i);
+                    arr1.set(i,arr1.get(i+1));
+                    arr2.set(i,arr2.get(i+1));
+                    arr1.set(i+1,temp);
+                    arr2.set(i+1,tempFreq);
+                    swaps++;
+                }
+                
+            }
+        }
+    }
     public boolean doTests(Email mail){
+
         return false;
     }
 
