@@ -1,9 +1,13 @@
 import java.util.ArrayList;
 public class Test {
+    private ArrayList<Email> spam;
+    private ArrayList<Email> notSpam;
+    
     public Test(ArrayList<Email> training, ArrayList<Email> test){
         
     }
     public boolean uniqueWords(){
+        
         return false;
     }
     public boolean wordCount(){
