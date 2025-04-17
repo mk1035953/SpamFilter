@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 public class Test {
     private ArrayList<Email> spam;
     private ArrayList<Email> notSpam;
@@ -18,11 +19,52 @@ public class Test {
     }
     
     public boolean uniqueWords(){
-        //0,1- spam; 2-3 notSpam
-        ArrayList<ArrayList> arrs = new ArrayList<ArrayList>();
-        
+        ArrayList<String> spamWords = new ArrayList<>();
+        ArrayList<Integer> spamWordFreq = new ArrayList<>();
+        ArrayList<String> hamWords = new ArrayList<>();
+        ArrayList<Integer> hamWordFreq = new ArrayList<>();
+
+        for(int i = 0; i<spam.size();i++){
+            String[] words = spam.get(i).getWords();
+            HashMap<String,Integer> freq = spam.get(i).getFreq();
+            for(int j = 0; j<words.length;j++){
+                if(!spamWords.contains(words[j])){
+                    spamWords.add(words[j]);
+                    spamWordFreq.add(freq.get(words[j]));
+                }
+            }
+        }
+        for(int i = 0; i<notSpam.size();i++){
+            String[] words = notSpam.get(i).getWords();
+            HashMap<String,Integer> freq = notSpam.get(i).getFreq();
+            for(int j = 0; j<words.length;j++){
+                if(!hamWords.contains(words[j])){
+                    hamWords.add(words[j]);
+                    hamWordFreq.add(freq.get(words[j]));
+                }
+            }
+        }
+
+        int swaps = 0;
+        while(swaps !=0){
+            swaps = 0;
+            for(int i = 0; i<spamWords.size();i++){
+                for(int j = 0; j<hamWords.size();j++){
+                    if(spamWordFreq.get(j) < spamWordFreq.get(j)){
+                        String temp = spamWords.get(i);
+                        int tempFreq = spamWordFreq.get(i);
+                        spamWords.set(i,hamWords.get(j));
+                        spamWordFreq.set(i,hamWordFreq.get(j));
+                        hamWords.set(j,temp);
+                        hamWordFreq.set(j,tempFreq);
+                        swaps++;
+                    }
+                }
+            }
+        }
         return false;
     }
+    
     public boolean wordCount(Email mail){
         double[] spamCounts = new double[spam.size()];
         double[] notCounts = new double[notSpam.size()];
@@ -54,6 +96,6 @@ public class Test {
     }
     public boolean doTests(Email mail){
         return false;
-
     }
+
 }
