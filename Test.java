@@ -9,7 +9,7 @@ public class Test {
     
     public boolean uniqueWords(){
         //0,1- spam; 2-3 notSpam
-        ArrayList<>[] arrs = new ArrayList<>[4];
+        ArrayList<ArrayList> arrs = new ArrayList<ArrayList>();
         
         return false;
     }
