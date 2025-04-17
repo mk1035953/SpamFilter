@@ -8,6 +8,7 @@ public class Test {
     }
     
     public boolean uniqueWords(){
+        //0,1- spam; 2-3 notSpam
         ArrayList<>[] arrs = new ArrayList<>[4];
         
         return false;
