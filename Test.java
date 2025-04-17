@@ -1,9 +1,13 @@
+import java.util.ArrayList;
 public class Test {
-    public static boolean wordCount(Email mail){
+    public Test(ArrayList<Email> training, ArrayList<Email> test){
+        
+    }
+    public boolean wordCount(){
         return false;
 
     }
-    public static boolean doTests(Email mail){
+    public boolean doTests(Email mail){
         return false;
 
     }
