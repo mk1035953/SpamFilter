@@ -6,7 +6,10 @@ public class Test {
     public Test(ArrayList<Email> training, ArrayList<Email> test){
         
     }
+    
     public boolean uniqueWords(){
+        ArrayList<Integer> nums = new ArrayList<Integer>();
+        ArrayList<String> strs = new ArrayList<String>();
         
         return false;
     }
