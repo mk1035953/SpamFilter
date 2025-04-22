@@ -18,8 +18,8 @@ public class Test {
         }
     }
     
-    public double uniqueWords(){
-        double ret = 0;
+    public double uniqueWords(Email mail){
+        double ret = 0.9;
 
         HashMap<String,Integer> spamMap = new HashMap<String,Integer>();
         HashMap<String,Integer> notSpamMap = new HashMap<String,Integer>();
@@ -66,9 +66,19 @@ public class Test {
         Bubble(spamWords,spamWordFreq);
         Bubble(hamWords,hamWordFreq);
 
-        
+
         
         return ret;
+    }
+
+    public void removeDupes(ArrayList<String> arr1, ArrayList<String> arr2){
+        for(int i = 0; i<arr1.size();i++){
+            for(int j = 0; j<arr2.size();j++){
+                if(arr1.get(i).equals(arr2.get(j))){
+                    arr1.remove(i);
+                }
+            }
+        }
     }
 
     public boolean wordCount(Email mail){
