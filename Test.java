@@ -67,8 +67,61 @@ public class Test {
         Bubble(hamWords,hamWordFreq);
 
         removeDupes(spamWords, hamWords, spamWordFreq);
-        
-        return ret;
+
+        String[] words = mail.getWords();
+        int[] freqs = new int[words.length];
+        for(int i = 0; i<words.length;i++){
+            freqs[i] = mail.freqOf(words[i]);
+        }
+
+        if(spamWords.size()<=0){
+            return 0;
+        }
+        else if(spamWords.size()<10){
+            double retSum = 0;
+            double retWords = ret/spamWords.size();
+            int maxFreq = 0;
+            for(int i:spamWordFreq){
+                maxFreq+=i;
+            }
+
+            double[] mailFreqs = new double[freqs.length];
+            for(int i = 0; i<freqs.length;i++){
+                mailFreqs[i] = freqs[i];
+            }
+            double mailAvgFreq = DataAnalysis.avg(mailFreqs);
+
+            for(int i = 0; i<spamWords.size();i++){
+                for(int j = 0; j<words.length;j++){
+                    if(words[j].equals(spamWords.get(i))){
+                        retSum += retWords*((freqs[j]+spamWordFreq.get(i))/maxFreq)*(freqs[j]/mailAvgFreq);
+                    }
+                }
+            }
+            return retSum;
+        }
+
+        double retSum = 0;
+        double retWords = ret/10;
+        int maxFreq = 0;
+        for(int i = 0; i<10;i++){
+            maxFreq+=spamWordFreq.get(i);
+        }
+
+        double[] mailFreqs = new double[freqs.length];
+        for(int i = 0; i<freqs.length;i++){
+            mailFreqs[i] = freqs[i];
+        }
+        double mailAvgFreq = DataAnalysis.avg(mailFreqs);
+
+        for(int i = 0; i<10;i++){
+            for(int j = 0; j<words.length;j++){
+                if(words[j].equals(spamWords.get(i))){
+                    retSum += retWords*((freqs[j]+spamWordFreq.get(i))/maxFreq)*(freqs[j]/mailAvgFreq);
+                }
+            }
+        }
+        return retSum;
     }
 
     public void removeDupes(ArrayList<String> arr1, ArrayList<String> arr2, ArrayList<Integer> arr3){
