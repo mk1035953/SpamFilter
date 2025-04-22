@@ -24,6 +24,7 @@ public class Email {
         }
     }
 
+    public int freqOf(String word){return freq.get(word);}
     public int getWordCount(){return words.length;}
     public String[] getWords(){return words;}
     public boolean getSpam(){return isSpam;}
