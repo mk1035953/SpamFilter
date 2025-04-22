@@ -66,16 +66,17 @@ public class Test {
         Bubble(spamWords,spamWordFreq);
         Bubble(hamWords,hamWordFreq);
 
-
+        removeDupes(spamWords, hamWords, spamWordFreq);
         
         return ret;
     }
 
-    public void removeDupes(ArrayList<String> arr1, ArrayList<String> arr2){
+    public void removeDupes(ArrayList<String> arr1, ArrayList<String> arr2, ArrayList<Integer> arr3){
         for(int i = 0; i<arr1.size();i++){
             for(int j = 0; j<arr2.size();j++){
                 if(arr1.get(i).equals(arr2.get(j))){
                     arr1.remove(i);
+                    arr3.remove(i);
                 }
             }
         }
