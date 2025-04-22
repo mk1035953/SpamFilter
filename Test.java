@@ -183,8 +183,15 @@ public class Test {
         }
     }
     public boolean doTests(Email mail){
-
-        return false;
+        if(mail.isEmpty()){
+            return true;
+        }
+        double ret = uniqueWords(mail);
+        if(wordCount(mail)){
+            ret+=0.1;
+        }
+        
+        return ret>.75;
     }
 
 }
