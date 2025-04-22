@@ -30,7 +30,8 @@ public class Reader {
 
         boolean[] bools = new boolean[testData.size()];
         for(int i = 0; i<bools.length;i++){
-            bools[i] = Test.doTests(testData.get(i));
+            Test test = new Test(trainData);
+            bools[i] = test.doTests(testData.get(i));
         }
     }   
     
