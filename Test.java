@@ -3,6 +3,8 @@ import java.util.HashMap;
 public class Test {
     private ArrayList<Email> spam;
     private ArrayList<Email> notSpam;
+    private ArrayList<String> topTen;
+    private ArrayList<Integer> topTenFreq;
     
     public Test(ArrayList<Email> training){
         spam = new ArrayList<Email>();
@@ -16,14 +18,10 @@ public class Test {
                 notSpam.add(e);
             }
         }
+        createTopTen();
     }
-    
-    public double uniqueWords(Email mail){
-        if(mail.isEmpty()){
-            return 0;
-        }
-        double ret = 0.9;
 
+    public void createTopTen(){
         HashMap<String,Integer> spamMap = new HashMap<String,Integer>();
         HashMap<String,Integer> notSpamMap = new HashMap<String,Integer>();
         
@@ -78,6 +76,15 @@ public class Test {
         Bubble(hamWords,hamWordFreq);
 
         removeDupes(spamWords, hamWords, spamWordFreq);
+        topTen = spamWords;
+        topTenFreq = spamWordFreq;
+    }
+    
+    public double uniqueWords(Email mail){
+        if(mail.isEmpty()){
+            return 0;
+        }
+        double ret = 0.9;
 
         String[] words = mail.getWords();
         int[] freqs = new int[words.length];
@@ -85,14 +92,14 @@ public class Test {
             freqs[i] = mail.freqOf(words[i]);
         }
 
-        if(spamWords.size()<=0){
+        if(topTen.size()<=0){
             return 0;
         }
-        else if(spamWords.size()<10){
+        else if(topTen.size()<10){
             double retSum = 0;
-            double retWords = ret/spamWords.size();
+            double retWords = ret/topTen.size();
             int maxFreq = 0;
-            for(int i:spamWordFreq){
+            for(int i:topTenFreq){
                 maxFreq+=i;
             }
 
@@ -102,10 +109,10 @@ public class Test {
             }
             double mailAvgFreq = DataAnalysis.avg(mailFreqs);
 
-            for(int i = 0; i<spamWords.size();i++){
+            for(int i = 0; i<topTen.size();i++){
                 for(int j = 0; j<words.length;j++){
-                    if(words[j].equals(spamWords.get(i))){
-                        retSum += retWords*((freqs[j]+spamWordFreq.get(i))/maxFreq)*(freqs[j]/mailAvgFreq);
+                    if(words[j].equals(topTen.get(i))){
+                        retSum += retWords*((freqs[j]+topTenFreq.get(i))/maxFreq)*(freqs[j]/mailAvgFreq);
                     }
                 }
             }
@@ -116,7 +123,7 @@ public class Test {
         double retWords = ret/10;
         int maxFreq = 0;
         for(int i = 0; i<10;i++){
-            maxFreq+=spamWordFreq.get(i);
+            maxFreq+=topTenFreq.get(i);
         }
 
         double[] mailFreqs = new double[freqs.length];
@@ -127,8 +134,8 @@ public class Test {
 
         for(int i = 0; i<10;i++){
             for(int j = 0; j<words.length;j++){
-                if(words[j].equals(spamWords.get(i))){
-                    retSum += retWords*((freqs[j]+spamWordFreq.get(i))/maxFreq)*(freqs[j]/mailAvgFreq);
+                if(words[j].equals(topTen.get(i))){
+                    retSum += retWords*((freqs[j]+topTenFreq.get(i))/maxFreq)*(freqs[j]/mailAvgFreq);
                 }
             }
         }
@@ -202,12 +209,9 @@ public class Test {
         if(wordCount(mail)){
             ret+=0.1;
         }
-        if(mod%1==0){
-            System.out.println("Ret = " + ret);
-        }
         return ret>.75;
         }catch(java.lang.ArrayIndexOutOfBoundsException e){
-            return Math.random()>.90;
+            return true;
         }
     }
 
