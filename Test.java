@@ -19,6 +19,9 @@ public class Test {
     }
     
     public double uniqueWords(Email mail){
+        if(mail.isEmpty()){
+            return 0;
+        }
         double ret = 0.9;
 
         HashMap<String,Integer> spamMap = new HashMap<String,Integer>();
@@ -32,16 +35,20 @@ public class Test {
         for(int i = 0; i<spam.size();i++){
             String[] words = spam.get(i).getWords();
             HashMap<String,Integer> freq = spam.get(i).getFreq();
+
+            System.out.println(words[0]);
+
             for(int j = 0; j<words.length;j++){
                 if(spamMap.get(words[j])==null){
                     spamWords.add(words[j]);
                     spamMap.put(words[j],freq.get(words[j]));
                 }
                 else{
-                   spamMap.put(words[j],spamMap.get(words[j])+freq.get(words[j]));
+                    spamMap.put(words[j],spamMap.get(words[j])+freq.get(words[j]));
                 }
             }
         }
+
         for(String s: spamWords){
             spamWordFreq.add(spamMap.get(s));
         }
@@ -165,7 +172,7 @@ public class Test {
         return false;
     }
     public void Bubble(ArrayList<String> arr1, ArrayList<Integer> arr2){
-        int swaps = 0;
+        int swaps = 1;
         while(swaps !=0){
             swaps = 0;
             for(int i = 0; i<arr1.size()-1;i++){
@@ -182,7 +189,8 @@ public class Test {
             }
         }
     }
-    public boolean doTests(Email mail){
+    public boolean doTests(Email mail, int mod){
+        try{
         if(mail.isEmpty()){
             return true;
         }
@@ -190,8 +198,13 @@ public class Test {
         if(wordCount(mail)){
             ret+=0.1;
         }
-        
+        if(mod%1==0){
+            System.out.println("Ret = " + ret);
+        }
         return ret>.75;
+        }catch(java.lang.NullPointerException e){
+            return Math.random()>.85;
+        }
     }
 
 }
