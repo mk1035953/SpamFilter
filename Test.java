@@ -190,7 +190,7 @@ public class Test {
         }
     }
     public boolean doTests(Email mail, int mod){
-        try{
+        //try{
         if(mail.isEmpty()){
             return true;
         }
@@ -202,9 +202,9 @@ public class Test {
             System.out.println("Ret = " + ret);
         }
         return ret>.75;
-        }catch(java.lang.NullPointerException e){
-            return Math.random()>.85;
-        }
+        /*}catch(java.lang.NullPointerException e){
+            return Math.random()>.90;
+        }*/
     }
 
 }
