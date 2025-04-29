@@ -36,6 +36,10 @@ public class Test {
             String[] words = spam.get(i).getWords();
             HashMap<String,Integer> freq = spam.get(i).getFreq();
 
+            if(words.length<=0){
+                continue;
+            }
+
             System.out.println(words[0]);
 
             for(int j = 0; j<words.length;j++){
@@ -66,7 +70,7 @@ public class Test {
                 }
             }
         }
-        for(String s: spamWords){
+        for(String s: hamWords){
             hamWordFreq.add(notSpamMap.get(s));
         }
 
@@ -190,7 +194,7 @@ public class Test {
         }
     }
     public boolean doTests(Email mail, int mod){
-        //try{
+        try{
         if(mail.isEmpty()){
             return true;
         }
@@ -202,9 +206,9 @@ public class Test {
             System.out.println("Ret = " + ret);
         }
         return ret>.75;
-        /*}catch(java.lang.NullPointerException e){
+        }catch(java.lang.ArrayIndexOutOfBoundsException e){
             return Math.random()>.90;
-        }*/
+        }
     }
 
 }
