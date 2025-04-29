@@ -1,38 +1,60 @@
-import java.util.HashMap;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 
-public class Email {
-    private boolean isEmpty;
-    private boolean isSpam;
-    private String[] words;
-    private HashMap<String,Integer> freq;
+public class Reader {
+    public static void main(String[] args) throws IOException, FileNotFoundException{
+        ArrayList<Email> emails = new ArrayList<Email>(5);
+        ArrayList<Email> trainData = new ArrayList<Email>();
+        ArrayList<Email> testData = new ArrayList<Email>();
+        
+        String filePath = "spam_or_not_spam.csv"; // Replace with your file path
 
-    public Email(){
-        isEmpty = true;
-    }
-    public Email(String[] text, boolean spam){
-        isEmpty = false;
-        isSpam = spam;
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] strs = line.split(",");
+                try{
+                    Email tempMail = new Email(strs[0].split(" "), Boolean.parseBoolean(strs[1]));
+                    emails.add(tempMail);
+                }
+                catch(java.lang.ArrayIndexOutOfBoundsException e){
+                    emails.add(new Email());
+                }
+            }
 
-        for(int i = 0; i< text.length;i++){
-            words[i] = text[i];
+        }
+        
+        Collections.shuffle(emails);
+        for(int i = 0; i<emails.size();i++){
+            int mod = i%10;
+            if(mod<8){
+                trainData.add(emails.get(i));
+            }
+            else{
+                testData.add(emails.get(i));
+            }
         }
 
-        fillmap();
-    }
-
-    public void fillmap(){
-        freq = new HashMap<>();
-
-        for(String str: words){
-            freq.putIfAbsent(str,0);
-            freq.put(str,freq.get(str)+1);
+        boolean[] bools = new boolean[testData.size()];
+        int count = 0;
+        Test test = new Test(trainData);
+        for(int i = 0; i<bools.length;i++){
+            bools[i] = test.doTests(testData.get(i), count);
+            count++;
         }
-    }
 
-    public boolean isEmpty(){return isEmpty;}
-    public int freqOf(String word){return freq.get(word);}
-    public int getWordCount(){return words.length;}
-    public String[] getWords(){return words;}
-    public boolean getSpam(){return isSpam;}
-    public HashMap<String,Integer> getFreq(){return freq;}
+        int sum = 0;
+
+        for(int i = 0;i<testData.size();i++){
+            if((bools[i]&&testData.get(i).getSpam())||(!bools[i]&&!testData.get(i).getSpam())){
+                sum++;
+            }   
+        }   
+        
+        System.out.println("Percent Correct:" + ((double)100*(double)sum/(double)testData.size()));
+    }   
 }
