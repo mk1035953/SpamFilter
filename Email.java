@@ -7,6 +7,7 @@ public class Email {
     private HashMap<String,Integer> freq;
 
     public Email(){
+        words = new String[0];
         isEmpty = true;
         isSpam = true;
     }
@@ -34,7 +35,13 @@ public class Email {
     public boolean isEmpty(){return isEmpty;}
     public int freqOf(String word){return freq.get(word);}
     public int getWordCount(){return words.length;}
-    public String[] getWords(){return words;}
+    public String[] getWords(){
+        if(words.length<=0){
+            String[] str = {};
+            return str;
+        }
+        return words;
+    }
     public boolean getSpam(){return isSpam;}
     public HashMap<String,Integer> getFreq(){return freq;}
 }
